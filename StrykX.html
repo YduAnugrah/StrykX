@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrykX</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#6E3AFF',secondary:'#00F0FF'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        
+        body {
+            background-color: #050510;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .glass-card {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-nav {
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 10px rgba(110, 58, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
+            border: 1px solid rgba(110, 58, 255, 0.3);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px rgba(110, 58, 255, 0.7), 0 0 20px rgba(0, 240, 255, 0.5);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #6E3AFF, #00F0FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-bg {
+            background-image: radial-gradient(circle at 50% 50%, rgba(110, 58, 255, 0.2), rgba(0, 0, 0, 0) 70%),
+                             linear-gradient(180deg, #050510 0%, #0A0A1A 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://public.readdy.ai/ai/img_res/5b9ea55ebcb3729dd569e727675743d9.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            z-index: 0;
+        }
+        
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(110, 58, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(110, 58, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(110, 58, 255, 0.2), 0 5px 15px rgba(0, 240, 255, 0.1);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: linear-gradient(45deg, rgba(110, 58, 255, 0.5), rgba(0, 240, 255, 0.5));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .service-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 rgba(110, 58, 255, 0.7);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 rgba(0, 240, 255, 0.7);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(42px, 9999px, 44px, 0);
+            }
+            5% {
+                clip: rect(12px, 9999px, 59px, 0);
+            }
+            10% {
+                clip: rect(48px, 9999px, 29px, 0);
+            }
+            15% {
+                clip: rect(42px, 9999px, 73px, 0);
+            }
+            20% {
+                clip: rect(63px, 9999px, 27px, 0);
+            }
+            25% {
+                clip: rect(34px, 9999px, 55px, 0);
+            }
+            30% {
+                clip: rect(86px, 9999px, 73px, 0);
+            }
+            35% {
+                clip: rect(20px, 9999px, 20px, 0);
+            }
+            40% {
+                clip: rect(26px, 9999px, 60px, 0);
+            }
+            45% {
+                clip: rect(25px, 9999px, 66px, 0);
+            }
+            50% {
+                clip: rect(57px, 9999px, 98px, 0);
+            }
+            55% {
+                clip: rect(5px, 9999px, 46px, 0);
+            }
+            60% {
+                clip: rect(82px, 9999px, 31px, 0);
+            }
+            65% {
+                clip: rect(54px, 9999px, 27px, 0);
+            }
+            70% {
+                clip: rect(28px, 9999px, 99px, 0);
+            }
+            75% {
+                clip: rect(45px, 9999px, 69px, 0);
+            }
+            80% {
+                clip: rect(23px, 9999px, 85px, 0);
+            }
+            85% {
+                clip: rect(54px, 9999px, 84px, 0);
+            }
+            90% {
+                clip: rect(45px, 9999px, 47px, 0);
+            }
+            95% {
+                clip: rect(24px, 9999px, 23px, 0);
+            }
+            100% {
+                clip: rect(10px, 9999px, 92px, 0);
+            }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+            }
+            5% {
+                clip: rect(52px, 9999px, 74px, 0);
+            }
+            10% {
+                clip: rect(79px, 9999px, 85px, 0);
+            }
+            15% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+            20% {
+                clip: rect(67px, 9999px, 61px, 0);
+            }
+            25% {
+                clip: rect(14px, 9999px, 79px, 0);
+            }
+            30% {
+                clip: rect(1px, 9999px, 66px, 0);
+            }
+            35% {
+                clip: rect(86px, 9999px, 30px, 0);
+            }
+            40% {
+                clip: rect(23px, 9999px, 98px, 0);
+            }
+            45% {
+                clip: rect(85px, 9999px, 72px, 0);
+            }
+            50% {
+                clip: rect(71px, 9999px, 75px, 0);
+            }
+            55% {
+                clip: rect(2px, 9999px, 48px, 0);
+            }
+            60% {
+                clip: rect(30px, 9999px, 16px, 0);
+            }
+            65% {
+                clip: rect(59px, 9999px, 50px, 0);
+            }
+            70% {
+                clip: rect(41px, 9999px, 62px, 0);
+            }
+            75% {
+                clip: rect(2px, 9999px, 82px, 0);
+            }
+            80% {
+                clip: rect(47px, 9999px, 73px, 0);
+            }
+            85% {
+                clip: rect(3px, 9999px, 27px, 0);
+            }
+            90% {
+                clip: rect(26px, 9999px, 55px, 0);
+            }
+            95% {
+                clip: rect(42px, 9999px, 97px, 0);
+            }
+            100% {
+                clip: rect(38px, 9999px, 49px, 0);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(110, 58, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(110, 58, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(110, 58, 255, 0);
+            }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        input[type="email"] {
+            background: rgba(20, 20, 40, 0.3);
+            border: 1px solid rgba(110, 58, 255, 0.3);
+            color: white;
+            outline: none;
+        }
+        
+        input[type="email"]:focus {
+            border-color: #6E3AFF;
+            box-shadow: 0 0 0 2px rgba(110, 58, 255, 0.2);
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            animation: pulse 2s infinite;
+        }
+        
+        .chatbot-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            z-index: 99;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-panel.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .circuit-bg {
+            background-image: url('https://public.readdy.ai/ai/img_res/0fe69cb49d565eb4d86919c92949f867.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+        }
+        
+        .brain-animation {
+            background-image: url('https://public.readdy.ai/ai/img_res/de69f911d55bc1270f5ae92ea1f1bf9c.jpg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: pulse 2s infinite, floating 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                <img src="Neuro Sync Logo - Line Drive Tech. (2)-Photoroom (1)11.png" alt="StrykX Logo" class="w-12 h-12 object-contain">
+
+    <!-- Brand Text -->
+    <span class="text-3xl font-bold gradient-text" style="font-family: 'Orbitron', sans-serif;">
+        StrykX
+                
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#services" class="text-white hover:text-primary relative group">
+                    Services
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#technology" class="text-white hover:text-primary relative group">
+                    Technology
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="text-white hover:text-primary relative group">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="text-white hover:text-primary relative group">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <button class="bg-transparent border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 px-6 py-2 !rounded-button">
+                    Get Started
+                </button>
+            </div>
+            
+            <button class="md:hidden w-10 h-10 flex items-center justify-center">
+                <i class="ri-menu-line text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-20 pb-16">
+        <div class="container mx-auto px-6 relative z-10 w-full">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div class="lg:w-1/2">
+                    <h1 class="orbitron text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                        <span class="glitch-text gradient-text" data-text="PIONEERING THE FUTURE OF AI,">PIONEERING THE FUTURE OF AI</span>
+                        <br>
+                        <span class="text-white">STRYKX CORPORATION</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
+                        StrykX harnesses advanced AI to craft next-gen digital experiences tailored to your vision. At the heart of it all is IRA — your Intelligent Responsive Agent, turning intent into innovation with every interaction
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-primary text-white px-8 py-3 font-medium !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all">
+                            Try Ira Free
+                        </button>
+                        <button class="bg-transparent neon-border text-white px-8 py-3 font-medium !rounded-button whitespace-nowrap hover:bg-primary/10 transition-all">
+                            <div class="flex items-center gap-2">
+                                <i class="ri-play-circle-line"></i>
+                                <span>Watch Demo</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="mt-12 flex items-center gap-6">
+                        <div class="flex -space-x-2">
+                            <img src="https://public.readdy.ai/ai/img_res/f6e971cd043aee55ed5ff70e9205fe89.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                            <img src="https://public.readdy.ai/ai/img_res/fd4c6fa79926f0f881b7f5e34ca733cf.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                            <img src="https://public.readdy.ai/ai/img_res/523ebbe1efb534b36bd141c4f448cd57.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-gray-800">
+                        </div>
+                        <div class="text-sm text-gray-300">
+                            <span class="text-white font-medium">2,500+</span> companies already using StrykX
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 flex justify-center">
+                    <div class="brain-animation w-[400px] h-[400px]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Brands Section -->
+    <section class="py-16 bg-[#080818]">
+        <div class="container mx-auto px-6">
+            <p class="text-center text-gray-400 mb-10 mono text-sm tracking-wider">TRUSTED BY INDUSTRY LEADERS</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-google-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Google</span>
+                </div>
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-microsoft-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Microsoft</span>
+                </div>
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-amazon-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Amazon</span>
+                </div>
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-netflix-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Netflix</span>
+                </div>
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-spotify-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Spotify</span>
+                </div>
+                <div class="flex items-center text-gray-400 hover:text-primary transition-colors">
+                    <i class="ri-slack-fill ri-3x"></i>
+                    <span class="ml-2 text-lg font-medium">Slack</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative overflow-hidden">
+        <div class="circuit-bg absolute inset-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                    <span class="gradient-text">AI-Powered</span> Services
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Our neural networks are trained on millions of high-quality designs to deliver exceptional results across multiple digital domains.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/20 rounded-lg mb-6">
+                        <!-- Sentiment icon: Happy, Neutral, or Sad -->
+                        <i class="ri-sentiment-happy-line ri-xl text-blue-500" id="sentimentIcon"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Sentiment Analysis</h3>
+                    <p class="text-gray-300 mb-6">
+                        Transform text prompts into fully functional, responsive websites with our state-of-the-art AI. From e-commerce to portfolios, StrykX delivers pixel-perfect results.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-primary hover:text-secondary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- <script>
+                    // Example sentiment type (could be dynamically set)
+                    const sentiment = "positive"; // Change this to "negative" or "neutral" based on analysis
+                
+                    const sentimentIcon = document.getElementById('sentimentIcon');
+                
+                    if (sentiment === "positive") {
+                        sentimentIcon.className = "ri-sentiment-happy-line ri-xl text-green-500"; // Happy face for positive sentiment
+                    } else if (sentiment === "negative") {
+                        sentimentIcon.className = "ri-sentiment-sad-line ri-xl text-red-500"; // Sad face for negative sentiment
+                    } else {
+                        sentimentIcon.className = "ri-sentiment-neutral-line ri-xl text-yellow-500"; // Neutral face for neutral sentiment
+                    }
+                </script> -->
+                
+                
+                
+                <!-- Service Card 2 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-secondary/20 rounded-lg mb-6">
+                        <i class="ri-layout-masonry-line ri-xl text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Multi Tasker </h3>
+                    <p class="text-gray-300 mb-6">
+                        Our AI analyzes user behavior patterns to create intuitive interfaces that maximize engagement and conversion. Each design is optimized for your specific audience.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-secondary hover:text-primary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/20 rounded-lg mb-6">
+                        <i class="ri-terminal-box-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Code Generation</h3>
+                    <p class="text-gray-300 mb-6">
+                        Generate clean, optimized code in multiple languages and frameworks. Our AI writes production-ready code that follows best practices and modern standards.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-primary hover:text-secondary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-secondary/20 rounded-lg mb-6">
+                        <i class="ri-image-edit-line ri-xl text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Visual Generation</h3>
+                    <p class="text-gray-300 mb-6">
+                        Create stunning visuals, illustrations, and graphics with our AI image generator. Perfect for website assets, marketing materials, and brand identity.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-secondary hover:text-primary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-primary/20 rounded-lg mb-6">
+                        <i class="ri-customer-service-2-line ri-xl text-primary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Voice Assistance</h3>
+                    <p class="text-gray-300 mb-6">
+                        Deploy intelligent chatbots and virtual assistants that understand natural language and provide personalized support to your users 24/7.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-primary hover:text-secondary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="glass-card service-card p-8 rounded">
+                    <div class="w-16 h-16 flex items-center justify-center bg-secondary/20 rounded-lg mb-6">
+                        <i class="ri-database-2-line ri-xl text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-4">Data Analytics</h3>
+                    <p class="text-gray-300 mb-6">
+                        Harness the power of AI to analyze user data, identify patterns, and generate actionable insights to optimize your digital presence.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-secondary hover:text-primary transition-colors">
+                        <span>Learn more</span>
+                        <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Technology Section -->
+    <section id="technology" class="py-24 bg-[#080818]">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2">
+                    <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                        <span class="gradient-text">Neural Engine</span> Technology
+                    </h2>
+                    <p class="text-gray-300 text-lg mb-8">
+                        Our proprietary AI system combines multiple neural networks to understand design principles, user psychology, and technical requirements simultaneously.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0 mt-1">
+                                <i class="ri-brain-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Advanced Neural Networks</h3>
+                                <p class="text-gray-300">
+                                    Our multi-layered transformer architecture processes visual and textual data simultaneously for coherent design generation.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0 mt-1">
+                                <i class="ri-ai-generate-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Contextual Understanding</h3>
+                                <p class="text-gray-300">
+                                    StrykX understands intent and context, allowing it to generate designs that align perfectly with your brand and objectives.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0 mt-1">
+                                <i class="ri-code-s-slash-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">Clean Code Generation</h3>
+                                <p class="text-gray-300">
+                                    Our system produces optimized, standards-compliant code that's maintainable and scalable for long-term project success.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="glass-card rounded-lg p-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-bl-3xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold">Performance Metrics</h3>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors">
+                                        <i class="ri-download-line"></i>
+                                    </button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="performanceChart" class="w-full h-[350px]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="circuit-bg absolute inset-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                    <span class="gradient-text">Futuristic</span> Features
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    StrykX combines cutting-edge AI with intuitive interfaces to deliver a seamless experience from concept to deployment.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                <!-- Feature 1 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-2xl mb-6">
+                        <i class="ri-magic-line ri-2x text-primary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">One-Prompt Generation</h3>
+                    <p class="text-gray-300">
+                        Describe your vision in natural language, and watch as StrykX transforms it into a complete website in seconds.
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-secondary/20 rounded-2xl mb-6">
+                        <i class="ri-palette-line ri-2x text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">Style Adaptation</h3>
+                    <p class="text-gray-300">
+                        Our AI analyzes your brand assets and adapts designs to match your existing visual identity seamlessly.
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-2xl mb-6">
+                        <i class="ri-device-line ri-2x text-primary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">Responsive by Default</h3>
+                    <p class="text-gray-300">
+                        Every design is automatically optimized for all devices and screen sizes without additional configuration.
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-secondary/20 rounded-2xl mb-6">
+                        <i class="ri-speed-line ri-2x text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">Performance Optimized</h3>
+                    <p class="text-gray-300">
+                        StrykX generates lightweight, optimized code that scores high on Core Web Vitals and other performance metrics.
+                    </p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-2xl mb-6">
+                        <i class="ri-edit-2-line ri-2x text-primary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">Iterative Refinement</h3>
+                    <p class="text-gray-300">
+                        Provide feedback and watch as the AI instantly refines designs to match your exact specifications.
+                    </p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-20 h-20 flex items-center justify-center bg-secondary/20 rounded-2xl mb-6">
+                        <i class="ri-rocket-line ri-2x text-secondary"></i>
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-3">One-Click Deployment</h3>
+                    <p class="text-gray-300">
+                        Deploy your AI-generated website to production with a single click, complete with hosting and domain setup.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-24 bg-[#080818]">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                    <span class="gradient-text">Client</span> Testimonials
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    See what industry leaders are saying about their experience with StrykX's revolutionary AI technology.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-8 rounded relative">
+                    <div class="absolute -top-4 -left-4 text-6xl text-primary opacity-30">"</div>
+                    <p class="text-gray-300 mb-6 relative z-10">
+                        StrykX transformed our digital presence overnight. What would have taken our team weeks was accomplished in minutes with stunning results. The AI understood our brand perfectly.
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://public.readdy.ai/ai/img_res/e3a474eb5191b84462acf953640b38ea.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Alexandra Chen</h4>
+                            <p class="text-sm text-gray-400">CEO, NexTech Solutions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-8 rounded relative">
+                    <div class="absolute -top-4 -left-4 text-6xl text-primary opacity-30">"</div>
+                    <p class="text-gray-300 mb-6 relative z-10">
+                        As a startup with limited resources, StrykX allowed us to launch with a website that looks like it cost tens of thousands to build. The ROI has been incredible for our business.
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://public.readdy.ai/ai/img_res/684610acc8c61ab270fa529a5e4553b5.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Marcus Johnson</h4>
+                            <p class="text-sm text-gray-400">Founder, Quantum Leap</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-8 rounded relative">
+                    <div class="absolute -top-4 -left-4 text-6xl text-primary opacity-30">"</div>
+                    <p class="text-gray-300 mb-6 relative z-10">
+                        The code quality StrykX produces is exceptional. As a developer, I was skeptical, but the clean, well-structured code has made maintenance and iterations remarkably easy.
+                    </p>
+                    <div class="flex items-center">
+                        <img src="https://public.readdy.ai/ai/img_res/4484614acbd65e6504abe0ec302f3586.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Sophia Rodriguez</h4>
+                            <p class="text-sm text-gray-400">CTO, Innovate AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 relative overflow-hidden">
+        <div class="circuit-bg absolute inset-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                    <span class="gradient-text">Flexible</span> Pricing
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Choose the plan that fits your needs, from individual creators to enterprise solutions.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Starter Plan -->
+                <div class="glass-card rounded p-8 border border-gray-800 hover:border-primary/30 transition-all duration-300">
+                    <h3 class="orbitron text-xl font-bold mb-2">Starter</h3>
+                    <p class="text-gray-400 mb-6">Perfect for individuals and small projects</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$29</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>5 AI website generations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Basic code export</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Standard hosting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Email support</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 py-3 font-medium !rounded-button whitespace-nowrap">
+                        Get Started
+                    </button>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="glass-card rounded p-8 border-2 border-primary relative transform hover:scale-105 transition-all duration-300 z-10">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
+                        Most Popular
+                    </div>
+                    <h3 class="orbitron text-xl font-bold mb-2">Professional</h3>
+                    <p class="text-gray-400 mb-6">Ideal for businesses and agencies</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">$99</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Unlimited AI website generations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Advanced code export</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Premium hosting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Priority support</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Custom domain</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-primary mr-2 mt-1"></i>
+                            <span>Analytics dashboard</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-primary text-white hover:bg-opacity-90 transition-all duration-300 py-3 font-medium !rounded-button whitespace-nowrap">
+                        Get Started
+                    </button>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div class="glass-card rounded p-8 border border-gray-800 hover:border-secondary/30 transition-all duration-300">
+                    <h3 class="orbitron text-xl font-bold mb-2">Enterprise</h3>
+                    <p class="text-gray-400 mb-6">For large organizations and teams</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">Custom</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-secondary mr-2 mt-1"></i>
+                            <span>Everything in Professional</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-secondary mr-2 mt-1"></i>
+                            <span>Dedicated account manager</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-secondary mr-2 mt-1"></i>
+                            <span>Custom AI training</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-secondary mr-2 mt-1"></i>
+                            <span>API access</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="ri-checkbox-circle-line text-secondary mr-2 mt-1"></i>
+                            <span>SLA guarantees</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-transparent border border-secondary text-secondary hover:bg-secondary hover:text-white transition-all duration-300 py-3 font-medium !rounded-button whitespace-nowrap">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-24 bg-[#080818] relative overflow-hidden">
+        <div class="absolute inset-0" style="background-image: url('https://public.readdy.ai/ai/img_res/1c5170e363a08e64136f0ce3a6a774e9.jpg'); background-size: cover; background-position: center; opacity: 0.2;"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="orbitron text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="gradient-text">Experience the future</span> of web creation
+                </h2>
+                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Join thousands of forward-thinking companies already using StrykX to revolutionize their digital presence.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-primary text-white px-8 py-4 font-medium !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all text-lg">
+                        Start Free Trial
+                    </button>
+                    <button class="bg-transparent neon-border text-white px-8 py-4 font-medium !rounded-button whitespace-nowrap hover:bg-primary/10 transition-all text-lg">
+                        Schedule Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <div class="circuit-bg absolute inset-0"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="orbitron text-3xl md:text-4xl font-bold mb-6">
+                        <span class="gradient-text">Get in</span> Touch
+                    </h2>
+                    <p class="text-gray-300 text-lg mb-8">
+                        Have questions about StrykX? Our team is ready to help you transform your digital presence with the power of AI.
+                    </p>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0">
+                                <i class="ri-map-pin-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Location</h3>
+                                <p class="text-gray-300">
+                                    1250 Techno Boulevard, San Francisco, CA 94107
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0">
+                                <i class="ri-mail-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Email</h3>
+                                <p class="text-gray-300">
+                                    hello@strykx.ai
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 flex items-center justify-center bg-primary/20 rounded-lg shrink-0">
+                                <i class="ri-phone-line ri-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-1">Phone</h3>
+                                <p class="text-gray-300">
+                                    +1 (415) 555-8970
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-twitter-x-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-linkedin-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-facebook-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-instagram-line text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="glass-card rounded-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6">Send us a message</h3>
+                        <form>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                                    <input type="text" id="name" class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded focus:border-primary focus:outline-none text-white" placeholder="Your name">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                    <input type="email" id="email" class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded focus:border-primary focus:outline-none text-white" placeholder="your@email.com">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                                <input type="text" id="subject" class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded focus:border-primary focus:outline-none text-white" placeholder="How can we help?">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                                <textarea id="message" rows="5" class="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded focus:border-primary focus:outline-none text-white resize-none" placeholder="Your message..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 font-medium !rounded-button whitespace-nowrap hover:bg-opacity-90 transition-all">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-16 bg-[#050510] border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+                <div class="lg:col-span-2">
+                    <a href="#" class="inline-block mb-6">
+                        <!-- Link Orbitron font in your <head> -->
+<link href="Neuro Sync Logo - Line Drive Tech. (2)-Photoroom (1).png" rel="stylesheet">
+
+<!-- StrykX Logo + Text -->
+<div class="flex items-center space-x-3">
+    <!-- Logo Image -->
+    <img src="Neuro Sync Logo - Line Drive Tech.-Photoroom (1)11.png" alt="StrykX Logo" class="w-12 h-12 object-contain">
+
+    <!-- Brand Text -->
+    <span class="text-3xl font-bold gradient-text" style="font-family: 'Orbitron', sans-serif;">
+        StrykX
+    </span>
+</div>
+
+                    </a>
+                    <p class="text-gray-400 mb-8 max-w-md">
+                        StrykX is revolutionizing web development with AI-powered solutions that transform how businesses create and maintain their digital presence.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-twitter-x-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-linkedin-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-facebook-line text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary/20 transition-colors">
+                            <i class="ri-instagram-line text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Products</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Web Generation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">UI/UX Design</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Code Generation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">AI Assistants</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">API Reference</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">
+                    © 2025 StrykX AI. All rights reserved.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="#" class="text-gray-500 hover:text-gray-300 transition-colors">Terms of Service</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300 transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300 transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Chatbot -->
+    <button id="chatbotToggle" class="chatbot-toggle glass-card w-16 h-16 flex items-center justify-center rounded-full neon-border">
+        <i class="ri-robot-line ri-xl text-primary"></i>
+    </button>
+    
+    <div id="chatbotPanel" class="chatbot-panel glass-card rounded-lg overflow-hidden">
+        <div class="p-4 bg-gray-900/50 border-b border-gray-800 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-8 h-8 flex items-center justify-center bg-primary/20 rounded-full mr-3">
+                    <i class="ri-robot-line text-primary"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold">IRA</h4>
+                    <p class="text-xs text-gray-400">Intelligent Response Assistant</p>
+                </div>
+            </div>
+            <button id="closeChatbot" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-800/50">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
+        
+        <div class="p-4 h-[300px] overflow-y-auto" id="chatMessages">
+            <div class="flex mb-4">
+                <div class="w-8 h-8 flex items-center justify-center bg-primary/20 rounded-full mr-2 shrink-0">
+                    <i class="ri-robot-line text-primary text-sm"></i>
+                </div>
+                <div class="bg-gray-800/50 rounded-lg rounded-tl-none p-3 max-w-[80%]">
+                    <p class="text-sm">Hello! I'm IRA, your AI assistant. How can I help you with StrykX today?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-4 border-t border-gray-800 bg-gray-900/50">
+            <div class="relative">
+                <input type="text" id="chatInput" placeholder="Type your message..." class="w-full px-4 py-3 pr-10 bg-gray-800/50 border border-gray-700 rounded focus:border-primary focus:outline-none text-white">
+                <button id="sendMessage" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-send-plane-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+        // Performance Chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartDom = document.getElementById('performanceChart');
+            const myChart = echarts.init(chartDom);
+            
+            const option = {
+                animation: false,
+                color: ['rgba(87, 181, 231, 1)', 'rgba(141, 211, 199, 1)', 'rgba(251, 191, 114, 1)'],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                legend: {
+                    data: ['StrykX AI', 'Traditional Dev', 'Industry Average'],
+                    textStyle: {
+                        color: '#fff'
+                    },
+                    top: 0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '15%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['Design', 'Development', 'Testing', 'Deployment', 'Maintenance'],
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    axisLabel: {
+                        color: 'rgba(255, 255, 255, 0.7)'
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Time (hours)',
+                    nameTextStyle: {
+                        color: 'rgba(255, 255, 255, 0.7)'
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.2)'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    axisLabel: {
+                        color: 'rgba(255, 255, 255, 0.7)'
+                    }
+                },
+                series: [
+                    {
+                        name: 'StrykX AI',
+                        type: 'line',
+                        data: [0.5, 1, 0.8, 0.3, 0.2],
+                        smooth: true,
+                        lineStyle: {
+                            width: 3
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: 'rgba(87, 181, 231, 0.2)'
+                                },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(87, 181, 231, 0.0)'
+                                }
+                            ])
+                        },
+                        symbol: 'none'
+                    },
+                    {
+                        name: 'Traditional Dev',
+                        type: 'line',
+                        data: [24, 80, 40, 8, 16],
+                        smooth: true,
+                        lineStyle: {
+                            width: 3
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: 'rgba(141, 211, 199, 0.2)'
+                                },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(141, 211, 199, 0.0)'
+                                }
+                            ])
+                        },
+                        symbol: 'none'
+                    },
+                    {
+                        name: 'Industry Average',
+                        type: 'line',
+                        data: [16, 60, 30, 6, 12],
+                        smooth: true,
+                        lineStyle: {
+                            width: 3
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                {
+                                    offset: 0,
+                                    color: 'rgba(251, 191, 114, 0.2)'
+                                },
+                                {
+                                    offset: 1,
+                                    color: 'rgba(251, 191, 114, 0.0)'
+                                }
+                            ])
+                        },
+                        symbol: 'none'
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+            
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+        });
+        
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotPanel = document.getElementById('chatbotPanel');
+            const closeChatbot = document.getElementById('closeChatbot');
+            const chatInput = document.getElementById('chatInput');
+            const sendMessage = document.getElementById('sendMessage');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            chatbotToggle.addEventListener('click', function() {
+                chatbotPanel.classList.toggle('active');
+            });
+            
+            closeChatbot.addEventListener('click', function() {
+                chatbotPanel.classList.remove('active');
+            });
+            
+            function sendUserMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+                
+                // Add user message
+                const userMessageHTML = `
+                    <div class="flex justify-end mb-4">
+                        <div class="bg-primary/20 rounded-lg rounded-tr-none p-3 max-w-[80%]">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.insertAdjacentHTML('beforeend', userMessageHTML);
+                chatInput.value = '';
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate AI response after a short delay
+                setTimeout(() => {
+                    const botResponses = [
+                        "Thanks for your message! How can I assist you with StrykX today?",
+                        "I'd be happy to help you learn more about our AI website generation technology.",
+                        "Would you like to see a demo of how StrykX works?",
+                        "Our Professional plan is most popular for businesses. Would you like more details?",
+                        "Is there anything specific about our technology you'd like to know?"
+                    ];
+                    
+                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                    
+                    const botMessageHTML = `
+                        <div class="flex mb-4">
+                            <div class="w-8 h-8 flex items-center justify-center bg-primary/20 rounded-full mr-2 shrink-0">
+                                <i class="ri-robot-line text-primary text-sm"></i>
+                            </div>
+                            <div class="bg-gray-800/50 rounded-lg rounded-tl-none p-3 max-w-[80%]">
+                                <p class="text-sm">${randomResponse}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    chatMessages.insertAdjacentHTML('beforeend', botMessageHTML);
+                    
+                    // Scroll to bottom again
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+            
+            sendMessage.addEventListener('click', sendUserMessage);
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendUserMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
